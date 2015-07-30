@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="ka (kaosfield)" />
+  <meta name="date" content="2015-07-18" />
+  <title>OSS普及協議会Ruby勉強会1</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="slidy.css" />
+  <script src="slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">OSS普及協議会Ruby勉強会1</h1>
+  <p class="author">
+ka (<a href="http://www.kaosfield.net">kaosfield</a>)
+  </p>
+  <p class="date">2015-07-18</p>
+</div>
+<div id="はじめに" class="slide section level1">
+<h1>はじめに</h1>
+<p>このスライドは公開されています</p>
+<p>このスライドのリポジトリは<a href="https://github.com/xxx/20150718-oss-ruby-slide" class="uri">https://github.com/xxx/20150718-oss-ruby-slide</a>にあります</p>
+<p>間違いなどを見つけた場合は</p>
+<ul>
+<li>
+メールで連絡
+</li>
+<li>
+Issueで報告
+</li>
+<li>
+Pull Requestで修正案を提出
+</li>
+</ul>
+<p>などしていただけるとありがたいです (※下に行くほど嬉しいです)</p>
+</div>
+<div id="今回の進め方" class="slide section level1">
+<h1>今回の進め方</h1>
+<p>Rubyを試せる環境を手元で構築してもらいます</p>
+<p>講師がスライドを進めながら都度ライブコーディングを行います</p>
+<p>それを見ているだけでもRubyの雰囲気やRuby独特の感覚は掴めると思います</p>
+<p>余力のある方は手元に構築した環境で自分自身の手でも試してみましょう</p>
+</div>
+<div id="rubyをインストール-windows" class="slide section level1">
+<h1>Rubyをインストール (Windows)</h1>
+<p>Windows上で直にRubyを動かす方法を今回は採りません</p>
+<p>VirtualBoxとVagrantとイメージのファイルを配ります</p>
+<p>そこでLinux(CentOS)を動かしRuby環境を実現します</p>
+<p>仮想マシンとそこに接続する環境が出来上がった人は</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">ruby</span> -v</code></pre></div>
+<p>と打ってエラーが出ずにRubyのバージョンが表示されることを確認しましょう</p>
+</div>
+<div id="rubyをインストール-ubuntu" class="slide section level1">
+<h1>Rubyをインストール (Ubuntu)</h1>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> apt-get install git curl build-essential \
+  zlib1g-dev libssl-dev libreadline6-dev libffi-dev
+
+<span class="kw">git</span> clone https://github.com/sstephenson/rbenv.git <span class="ot">$HOME</span>/.rbenv
+<span class="kw">echo</span> <span class="st">&#39;export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;&#39;</span> <span class="kw">&gt;&gt;</span> <span class="ot">$HOME</span>/.profile
+<span class="kw">echo</span> <span class="st">&#39;eval &quot;$(rbenv init -)&quot;&#39;</span> <span class="kw">&gt;&gt;</span> <span class="ot">$HOME</span>/.profile
+<span class="kw">exec</span> <span class="ot">$SHELL</span> -l
+
+<span class="kw">mkdir</span> -p <span class="ot">$HOME</span>/.rbenv/plugins
+<span class="kw">git</span> clone https://github.com/sstephenson/ruby-build.git <span class="ot">$HOME</span>/.rbenv/plugins/ruby-build
+
+<span class="kw">rbenv</span> install 2.2.2
+<span class="kw">rbenv</span> global 2.2.2
+<span class="kw">rbenv</span> rehash</code></pre></div>
+<p><code>~/.profile</code> の代わりに <code>~/.zshenv</code> を使うなどは適宜読み替えて下さい</p>
+<p><code>~/.profile</code> で上手く行かない場合は <code>~/.bash_profile</code> や <code>~/.bashrc</code> などを試みて下さい</p>
+</div>
+<div id="rubyをインストール-centos" class="slide section level1">
+<h1>Rubyをインストール (CentOS)</h1>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> yum install openssl-devel zlib-devel readline-devel</code></pre></div>
+<p>後はUbuntuでやったのと同じです</p>
+</div>
+<div id="rubyをインストール-mac" class="slide section level1">
+<h1>Rubyをインストール (Mac)</h1>
+<p>まずHomebrewというものをインストールします</p>
+<p><a href="http://brew.sh/">Homebrew — The missing package manager for OS X</a></p>
+<p>これにより <code>brew</code> コマンドが使えるようになったら以下でOKです</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">brew</span> update
+<span class="kw">brew</span> install rbenv
+<span class="kw">brew</span> install ruby-build
+
+<span class="kw">echo</span> <span class="st">&#39;eval &quot;$(rbenv init -)&quot;&#39;</span> <span class="kw">&gt;&gt;</span> ~/.bash_profile
+<span class="kw">source</span> ~/.bash_profile
+
+<span class="kw">rbenv</span> install 2.2.2
+<span class="kw">rbenv</span> global 2.2.2
+<span class="kw">rbenv</span> rehash</code></pre></div>
+</div>
+<div id="rbenvとは" class="slide section level1">
+<h1>rbenvとは</h1>
+<p><span style="color:red">R</span>u<span style="color:red">B</span>y <span style="color:red">ENV</span>ironment という意味(だと思います)(※どこにも明言はされていない)</p>
+<p>Rubyを複数のバージョン同時にインストールしてそれの切り替えなんかを面倒見てくれるものです</p>
+</div>
+<div id="rbenvの必要性" class="slide section level1">
+<h1>rbenvの必要性</h1>
+<p>Rubyはバージョンアップのサイクルが恐ろしく速いです</p>
+<p>新しいバージョンをどんどん試して行きたいというか<br />
+試していかないと気付いた時には凄く前のバージョンで留まってる<br />
+なんてことにごく普通になりがちです</p>
+<p>しかし古いバージョンで動いてるものを動かなくさせてしまうかもしれない</p>
+<p>色んなバージョンのRuby (jruby も mruby もある)をインストールして使い分けられます</p>
+<p>インストール可能な一覧は以下のコマンドで確認出来ます</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">rbenv</span> install -l</code></pre></div>
+</div>
+<div id="rvmを使ってのインストール" class="slide section level1">
+<h1>rvmを使ってのインストール</h1>
+<p>似たツールに rvm というものもあります</p>
+<p>Mac でも brew で rvm がインストール出来ない(無い)ので以下の方法でインストールします</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">curl</span> -L https://get.rvm.io <span class="kw">|</span> <span class="kw">bash</span> -s stable --autolibs=enabled
+<span class="kw">rvm</span> install 2.2.2</code></pre></div>
+<p>最新版Rubyをこの後使うので以下でも良いです</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">curl</span> -L https://get.rvm.io <span class="kw">|</span> <span class="kw">bash</span> -s stable --autolibs=enabled --ruby</code></pre></div>
+</div>
+<div id="余談rvmのアンインストール" class="slide section level1">
+<h1>(余談)rvmのアンインストール</h1>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">rvm</span> seppuku</code></pre></div>
+</div>
+<div id="hello-world" class="slide section level1">
+<h1>Hello world</h1>
+<p>hello.rbというファイルに以下のように書く</p>
+<pre class="rb"><code>puts &#39;Hello world&#39;</code></pre>
+<p>コンソールから以下のコマンドを実行</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">ruby</span> hello.rb</code></pre></div>
+<p>これでHello worldが出来た</p>
+</div>
+<div id="今日の最大の目的は達成しました" class="slide section level1">
+<h1>今日の最大の目的は達成しました</h1>
+<ul class="incremental">
+<li>拍手！</li>
+</ul>
+</div>
+<div id="ruby自体の基礎知識" class="slide section level1">
+<h1>Ruby自体の基礎知識</h1>
+<p>入門的なことは説明しない</p>
+<p>※既に世の中にたくさんの書籍が出ているのでそれを使って自分のペースで手習いすると良い</p>
+<p>※もし分からないことが出てきたら是非tokushima.rbにお越し下さい(宣伝)</p>
+</div>
+<div id="ifは文ではなく式である" class="slide section level1">
+<h1>ifは文ではなく式である</h1>
+<p>式であるので値を持つ</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">x <span class="kw">= if</span> <span class="dv">true</span>
+  <span class="dv">1</span>
+<span class="kw">else</span>
+  <span class="dv">2</span>
+<span class="kw">end</span>
+
+p x <span class="co">#=&gt; 1</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">y <span class="kw">= if</span> <span class="dv">false</span>
+  <span class="dv">1</span>
+<span class="kw">else</span>
+  <span class="dv">2</span>
+<span class="kw">end</span>
+
+p y <span class="co">#=&gt; 2</span></code></pre></div>
+</div>
+<div id="case式" class="slide section level1">
+<h1>case式</h1>
+<p>同様にcaseも式である</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">x = <span class="dv">1</span>
+
+y = <span class="kw">case</span> x
+<span class="kw">when</span> <span class="dv">1</span>
+  <span class="dv">10</span>
+<span class="kw">when</span> <span class="dv">2</span>
+  <span class="dv">100</span>
+<span class="kw">else</span>
+  <span class="dv">0</span>
+<span class="kw">end</span>
+
+p y <span class="co">#=&gt; 10</span></code></pre></div>
+</div>
+<div id="メソッドにreturnは書かない" class="slide section level1">
+<h1>メソッドにreturnは書かない</h1>
+<p>メソッドで最後に評価された式の値がメソッドの戻り値になる</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> m
+  <span class="dv">1</span> + <span class="dv">1</span> <span class="co"># 戻り値には関係しない</span>
+  <span class="dv">1</span>
+<span class="kw">end</span>
+
+p m <span class="co">#=&gt; 1</span></code></pre></div>
+</div>
+<div id="メソッドにreturnは書かない-1" class="slide section level1">
+<h1>メソッドにreturnは書かない</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> m(x)
+  <span class="kw">if</span> x &gt; <span class="dv">0</span>
+    <span class="st">&#39;pos&#39;</span>
+  <span class="kw">elsif</span> x &lt; <span class="dv">0</span>
+    <span class="st">&#39;neg&#39;</span>
+  <span class="kw">else</span>
+    <span class="st">&#39;zero&#39;</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+
+p m(<span class="dv">1</span>) <span class="co">#=&gt; &quot;pos&quot;</span>
+p m(-<span class="dv">1</span>) <span class="co">#=&gt; &quot;neg&quot;</span>
+p m(<span class="dv">0</span>) <span class="co">#=&gt; &quot;zero&quot;</span></code></pre></div>
+</div>
+<div id="returnを書くのはどういうときか" class="slide section level1">
+<h1>returnを書くのはどういうときか</h1>
+<p>途中でメソッドを終わりたい場合</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> average(a)
+  <span class="kw">return</span> <span class="dv">nil</span> <span class="kw">if</span> a.empty?
+
+  sum = <span class="fl">0.0</span>
+  a.each { |i| sum += i }
+  sum / a.size
+<span class="kw">end</span>
+
+p average([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]) <span class="co">#=&gt; 2.0</span>
+p average([]) <span class="co">#=&gt; nil</span></code></pre></div>
+</div>
+<div id="メソッドの設計も疑った方が良い" class="slide section level1">
+<h1>メソッドの設計も疑った方が良い</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> average(a)
+  sum = <span class="fl">0.0</span>
+  a.each { |i| sum += i }
+  sum / a.size
+<span class="kw">end</span>
+
+a = [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]
+
+<span class="kw">if</span> a.empty?
+  <span class="co"># 平均値が計算出来ない場合の処理をその都度考えられる</span>
+  <span class="co"># 0.0を返すべきなのかnilを返すべきなのか</span>
+<span class="kw">else</span>
+  average a
+<span class="kw">end</span></code></pre></div>
+<p>こうした方が良いということを示唆しているかもしれない</p>
+</div>
+<div id="classとmodule" class="slide section level1">
+<h1>classとmodule</h1>
+<p>インスタンスメソッドの定義とクラスメソッドの定義</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">class</span> C
+  <span class="kw">def</span> m
+    puts <span class="st">&#39;C#m&#39;</span>
+  <span class="kw">end</span>
+
+  <span class="kw">def</span> <span class="dv">self</span>.cm
+    puts <span class="st">&#39;C.cm&#39;</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+
+C.new.m <span class="co">#=&gt; &#39;C#m&#39;</span>
+C.cm <span class="co">#=&gt; &#39;C.cm&#39;</span></code></pre></div>
+<p>これ以外にもやり方はある</p>
+</div>
+<div id="classとmodule-1" class="slide section level1">
+<h1>classとmodule</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">module</span> M
+  <span class="kw">def</span> m
+    puts <span class="st">&#39;M m&#39;</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+
+
+
+include M
+
+m <span class="co">#=&gt; &#39;M m&#39;</span></code></pre></div>
+<p>moduleはincludeするとその場に展開されるイメージ</p>
+</div>
+<div id="classとmodule-2" class="slide section level1">
+<h1>classとmodule</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="co">#module M</span>
+<span class="co">#  def m</span>
+<span class="co">#    puts &#39;M m&#39;</span>
+<span class="co">#  end</span>
+<span class="co">#end</span>
+
+<span class="kw">def</span> m
+  puts <span class="st">&#39;M m&#39;</span>
+<span class="kw">end</span>
+
+m <span class="co">#=&gt; &#39;M m&#39;</span></code></pre></div>
+<p>moduleはincludeするとその場に展開されるイメージ</p>
+</div>
+<div id="メソッドの記法について" class="slide section level1">
+<h1>メソッドの記法について</h1>
+<p>インスタンスメソッドは # を用いて</p>
+<pre><code>C#m</code></pre>
+<p>クラスメソッドは . を用いて</p>
+<pre><code>C.cm</code></pre>
+<p>のように表記されることがあるのでそれに則る</p>
+<p>※インスタンスメソッドの方はそう呼べるわけではないので注意</p>
+</div>
+<div id="モジュールはクラスに組み込まれる" class="slide section level1">
+<h1>モジュールはクラスに組み込まれる</h1>
+<p>includeの場合</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">module</span> M
+  <span class="kw">def</span> m
+    puts <span class="st">&#39;M m&#39;</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+
+<span class="kw">class</span> C
+  include M
+<span class="kw">end</span>
+
+C.new.m <span class="co">#=&gt; &#39;M m&#39;</span></code></pre></div>
+</div>
+<div id="モジュールはクラスに組み込まれる-1" class="slide section level1">
+<h1>モジュールはクラスに組み込まれる</h1>
+<p>extendの場合</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">module</span> M
+  <span class="kw">def</span> m
+    puts <span class="st">&#39;M m&#39;</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+
+<span class="kw">class</span> C
+  extend M
+<span class="kw">end</span>
+
+C.m <span class="co">#=&gt; &#39;M m&#39;</span></code></pre></div>
+</div>
+<div id="section" class="slide section level1">
+<h1></h1>
+<p>おわかりいただけただろうか</p>
+</div>
+<div id="section-1" class="slide section level1">
+<h1></h1>
+<p>includeはその場に展開されるイメージを思い出すと良い</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="co">#module M</span>
+<span class="co">#  def m</span>
+<span class="co">#    puts &#39;M m&#39;</span>
+<span class="co">#  end</span>
+<span class="co">#end</span>
+
+<span class="kw">class</span> C
+  <span class="co">#include M</span>
+  <span class="kw">def</span> m
+    puts <span class="st">&#39;M m&#39;</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+
+C.new.m <span class="co">#=&gt; &#39;M m&#39;</span></code></pre></div>
+</div>
+<div id="moduleは名前空間としても使える" class="slide section level1">
+<h1>moduleは名前空間としても使える</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">module</span> <span class="dt">M1</span>
+  <span class="kw">class</span> C
+    <span class="kw">def</span> m
+      puts <span class="st">&#39;method m of C of M1&#39;</span>
+    <span class="kw">end</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+
+<span class="kw">module</span> <span class="dt">M2</span>
+  <span class="kw">class</span> C
+    <span class="kw">def</span> m
+      puts <span class="st">&#39;method m of C of M2&#39;</span>
+    <span class="kw">end</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+
+<span class="dt">M1</span>::<span class="dt">C</span>.new.m <span class="co">#=&gt; method m of C of M1</span>
+<span class="dt">M2</span>::<span class="dt">C</span>.new.m <span class="co">#=&gt; method m of C of M2</span></code></pre></div>
+<p>同じ名前のクラスCだが名前空間で区別される</p>
+</div>
+<div id="requireの使い方" class="slide section level1">
+<h1>requireの使い方</h1>
+<p>実用していると欲しくなるのがファイル分割</p>
+<p><code>13-lib.rb</code> を以下のように用意する</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> f(x)
+  x + <span class="dv">1</span>
+<span class="kw">end</span></code></pre></div>
+<p><code>13.rb</code> を以下のように用意する</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">require <span class="st">&#39;./13-lib&#39;</span>
+
+p f(<span class="dv">2</span>) <span class="co">#=&gt; 3</span></code></pre></div>
+</div>
+<div id="do...end-proc-proc-lambdaとは何か" class="slide section level1">
+<h1>{...} do...end Proc proc lambdaとは何か</h1>
+</div>
+<div id="do...end-は同じ" class="slide section level1">
+<h1>{...} do...end は同じ</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">instance.method { do_something }</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">instance.method <span class="kw">do</span>
+  do_something
+<span class="kw">end</span></code></pre></div>
+<p>複数行の際は do...end が良い</p>
+</div>
+<div id="proc-proc-lambda" class="slide section level1">
+<h1>Proc proc lambda</h1>
+<p>それぞれ無名関数に関連するものである</p>
+<p><code>{...}</code> もしくは <code>do...end</code> はメソッドの最後の引数と考える</p>
+<p>引数で渡されるのはオブジェクトであり，そのクラスが <code>Proc</code> である</p>
+<h3 id="今回は説明しないこと">今回は説明しないこと</h3>
+<p><code>Proc.new</code>や<code>proc</code>を使ってブロックを作成しておくことが出来る</p>
+<p><code>lambda</code>あるいは同等の<code>-&gt;</code>というものを使って無名関数を作ることも出来る</p>
+<p><code>lambda</code>で作った方は引数の数のチェックがあるなど若干違いがある</p>
+</div>
+<div id="ブロックを受け取ったところを見てみる" class="slide section level1">
+<h1>ブロックを受け取ったところを見てみる</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="co"># x は普通の引数</span>
+<span class="co"># &amp;のついた最後の引数 block が do ... end に書いた「処理そのもの」</span>
+<span class="kw">def</span> f(x, &amp;block)
+  puts x
+  puts block.nil? <span class="co"># blockがあるかどうかだけ確認している</span>
+<span class="kw">end</span>
+
+f <span class="dv">1</span> <span class="kw">do</span>
+  call_illegal_method <span class="co"># どうせ呼ばれないので何をしても良い</span>
+<span class="kw">end</span>
+<span class="co">#=&gt;</span>
+<span class="co"># 1</span>
+<span class="co"># false</span>
+
+f <span class="dv">2</span>
+<span class="co">#=&gt;</span>
+<span class="co"># 2</span>
+<span class="co"># true</span></code></pre></div>
+</div>
+<div id="ブロックを受け取ったところを見てみる-1" class="slide section level1">
+<h1>ブロックを受け取ったところを見てみる</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> f(x, &amp;block)
+  puts block.class <span class="co"># blockのクラスはProcである</span>
+<span class="kw">end</span>
+
+f <span class="dv">1</span> <span class="kw">do</span>
+  call_illegal_method
+<span class="kw">end</span>
+<span class="co">#=&gt; Proc</span></code></pre></div>
+</div>
+<div id="ブロックを呼んでみる" class="slide section level1">
+<h1>ブロックを呼んでみる</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> f(&amp;block)
+  puts <span class="st">&#39;before call&#39;</span>
+  block.call
+  puts <span class="st">&#39;after call&#39;</span>
+<span class="kw">end</span>
+
+f <span class="kw">do</span>
+  puts <span class="st">&#39;in the block&#39;</span>
+<span class="kw">end</span>
+<span class="co">#=&gt;</span>
+<span class="co"># before call</span>
+<span class="co"># in the block</span>
+<span class="co"># after call</span></code></pre></div>
+</div>
+<div id="ブロックを呼ぶ方法3種類" class="slide section level1">
+<h1>ブロックを呼ぶ方法3種類</h1>
+<ul>
+<li>
+<code>call</code>メソッドを呼ぶ
+</li>
+<li>
+<code>[]</code>メソッドを呼ぶ
+</li>
+<li>
+<code>yield</code>
+</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> f(&amp;block)
+  block.call
+  block[]
+  <span class="kw">yield</span>
+<span class="kw">end</span>
+
+f <span class="kw">do</span>
+  puts <span class="st">&#39;in the block&#39;</span>
+<span class="kw">end</span>
+<span class="co">#=&gt;</span>
+<span class="co"># in the block</span>
+<span class="co"># in the block</span>
+<span class="co"># in the block</span></code></pre></div>
+</div>
+<div id="block-block_given-yieldとは何か" class="slide section level1">
+<h1>&amp;block block_given? yieldとは何か</h1>
+<p>ブロックを引数で受け取るには最後の引数名に <code>&amp;</code> をつければ良い</p>
+<p>ブロックを受け取ることになっていないメソッドにもブロックは渡せる</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> f
+  puts <span class="st">&#39;f&#39;</span>
+<span class="kw">end</span>
+
+f <span class="kw">do</span>
+  puts <span class="st">&#39;in the block&#39;</span>
+<span class="kw">end</span>
+<span class="co">#=&gt; f</span></code></pre></div>
+<p>何も起こらない</p>
+</div>
+<div id="block-block_given-yieldとは何か-1" class="slide section level1">
+<h1>&amp;block block_given? yieldとは何か</h1>
+<p>さきほどはブロックを受け取ったかどうかを<code>.nil?</code>で判定した</p>
+<p>専用の<code>block_given?</code>というメソッドがある</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> f
+  puts block_given?
+<span class="kw">end</span>
+
+f { call_illegal_method } <span class="co">#=&gt; true</span>
+f                         <span class="co">#=&gt; false</span></code></pre></div>
+</div>
+<div id="block-block_given-yieldとは何か-2" class="slide section level1">
+<h1>&amp;block block_given? yieldとは何か</h1>
+<p>どうせブロックは一つしか渡せない</p>
+<p>なら受け取ったブロックの呼び出しは<code>yield</code>と書くだけにすればいいんじゃないか</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> f
+  puts <span class="st">&#39;f&#39;</span>
+  <span class="kw">yield</span>
+<span class="kw">end</span>
+
+f <span class="kw">do</span>
+  puts <span class="st">&#39;in the block&#39;</span>
+<span class="kw">end</span>
+<span class="co">#=&gt;</span>
+<span class="co">#  f</span>
+<span class="co">#  in the block</span></code></pre></div>
+</div>
+<div id="block-block_given-yieldとは何か-3" class="slide section level1">
+<h1>&amp;block block_given? yieldとは何か</h1>
+<p>ブロックを受け取っていないのに<code>yield</code>を呼んでしまうとエラー</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> f
+  <span class="kw">yield</span>
+<span class="kw">end</span>
+
+f <span class="co"># エラーが発生する</span></code></pre></div>
+<p>なので<code>block_given?</code>が役立つ</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> f
+  <span class="kw">yield</span> <span class="kw">if</span> block_given?
+<span class="kw">end</span>
+
+f <span class="co"># 何も起こらない(yieldしないのでエラーも起こらない)</span>
+
+f { puts <span class="st">&#39;in the block&#39;</span> } <span class="co">#=&gt; in the block</span></code></pre></div>
+</div>
+<div id="section-2" class="slide section level1">
+<h1></h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">yield</span> <span class="kw">if</span> block_given?</code></pre></div>
+<blockquote>
+<p>yield if block given</p>
+</blockquote>
+<p>割と自然な英語で読める</p>
+</div>
+<div id="method_missingの紹介" class="slide section level1">
+<h1>method_missingの紹介</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">class</span> C
+<span class="kw">end</span>
+
+C.new.m <span class="dv">1</span>, <span class="dv">2</span></code></pre></div>
+<p>唐突に存在しないメソッドを呼んでみる</p>
+<p>当然エラー</p>
+</div>
+<div id="method_missingの紹介-1" class="slide section level1">
+<h1>method_missingの紹介</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">class</span> C
+  <span class="kw">def</span> method_missing(name, *args)
+    puts <span class="st">&quot;</span><span class="ot">#{</span>name<span class="ot">}</span><span class="st"> called&quot;</span>
+    puts args
+  <span class="kw">end</span>
+<span class="kw">end</span>
+
+C.new.m <span class="dv">1</span>, <span class="dv">2</span>
+<span class="co">#=&gt;</span>
+<span class="co"># m called</span>
+<span class="co"># 1</span>
+<span class="co"># 2</span>
+
+C.new.fooooo <span class="co">#=&gt; fooooo called</span></code></pre></div>
+<p>エラーが発生しないどころかどうやってメソッドが呼ばれたのかの情報が伝わる</p>
+</div>
+<div id="section-3" class="slide section level1">
+<h1></h1>
+<p>濫用は非常に危険であるが上手く使えば有用なこともある</p>
+<p>例えばfactory_girlというライブラリを見てみると良い</p>
+<ul>
+<li>
+<a href="https://github.com/thoughtbot/factory_girl">thoughtbot/factory_girl</a>
+</li>
+<li>
+<a href="https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md">factory_girl/GETTING_STARTED.md at master · thoughtbot/factory_girl</a>
+</li>
+</ul>
+</div>
+<div id="mapcollect-reduceinject-select" class="slide section level1">
+<h1>map/collect reduce/inject select</h1>
+<p>関数型プログラミング的な書き換え</p>
+</div>
+<div id="mapcollect-reduceinject-select-1" class="slide section level1">
+<h1>map/collect reduce/inject select</h1>
+<p>C言語やJava 7までしか触ったことの無い人(昔の私)の発想</p>
+<p>「なんでforループの話が出てこないのだろう」</p>
+</div>
+<div id="mapcollect-reduceinject-select-2" class="slide section level1">
+<h1>map/collect reduce/inject select</h1>
+<p>アルゴリズムの研究者ならともかくループを直に自分で書く必要は今やほとんど無い</p>
+</div>
+<div id="mapcollect-reduceinject-select-3" class="slide section level1">
+<h1>map/collect reduce/inject select</h1>
+<p>ありがちなコード</p>
+<p>例題: 配列の奇数だけを10倍して総和を求めよ</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">a = [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]
+
+s = <span class="dv">0</span>
+<span class="kw">for</span> i <span class="kw">in</span> a <span class="kw">do</span>
+  <span class="kw">if</span> i % <span class="dv">2</span> != <span class="dv">0</span>
+    s += i * <span class="dv">10</span>
+  <span class="kw">end</span>
+<span class="kw">end</span>
+p s <span class="co">#=&gt; 90</span></code></pre></div>
+</div>
+<div id="mapcollect-reduceinject-select-4" class="slide section level1">
+<h1>map/collect reduce/inject select</h1>
+<p>Rubyで出来る別解</p>
+<p>例題: 配列の奇数だけを10倍して総和を求めよ</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">a = [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]
+
+p a.select { |e| e % <span class="dv">2</span> != <span class="dv">0</span> }.map { |e| e * <span class="dv">10</span> }.reduce(<span class="dv">0</span>) { |a, e| a + e }
+
+<span class="co"># odd? というメソッドと symbol to_proc と reduce の特性が理解出来ていれば以下でも</span>
+p a.select(&amp;<span class="st">:odd?</span>).map { |e| e * <span class="dv">10</span> }.reduce(&amp;:+)</code></pre></div>
+</div>
+<div id="mapcollect" class="slide section level1">
+<h1>map/collect</h1>
+<p>どちらも同じメソッドである</p>
+<p>配列(正確にはEnumerableをincludeしたオブジェクト)の全要素に<br />
+与えられたブロックの処理を適用した新たな配列を返す</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">p [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>].map { |e| e * <span class="dv">2</span> } <span class="co">#=&gt; [2, 4, 6]</span>
+
+p [<span class="st">&#39;1&#39;</span>, <span class="st">&#39;2&#39;</span>, <span class="st">&#39;3&#39;</span>].collect { |e| e.to_i } <span class="co">#=&gt; [1, 2, 3]</span></code></pre></div>
+</div>
+<div id="reduceinject" class="slide section level1">
+<h1>reduce/inject</h1>
+<p>どちらも同じメソッドである</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">p [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>].reduce(<span class="dv">0</span>) { |a, e| a + e } <span class="co">#=&gt; 6</span>
+
+p [<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>].inject(<span class="st">&#39;&#39;</span>) { |a, e| e + a } <span class="co">#=&gt; &quot;cba&quot;</span></code></pre></div>
+</div>
+<div id="reduceinjectの動作説明" class="slide section level1">
+<h1>reduce/injectの動作説明</h1>
+<p>メソッドの引数を初期値として<br />
+配列(正確には(以下略))の全要素に対して<br />
+ブロックの第一引数が初期値に<br />
+第二引数が各要素になりながら<br />
+戻り値を次のイテレーションの第一引数にし<br />
+ループする</p>
+<p>最終的な戻り値は最後のブロックの戻り値</p>
+<p>(※後で詳しく説明します)</p>
+<p>(※kamiyama.rbでの発表スライドより抜粋)</p>
+</div>
+<div id="select" class="slide section level1">
+<h1>select</h1>
+<p>配列(正確(略))の全要素に対し<br />
+与えられたブロックの結果が<code>true</code>になったものだけを残した新しい配列を返す</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">p [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>].select { |e| e.odd? &amp;&amp; e &gt;= <span class="dv">3</span> } <span class="co">#=&gt; [3, 5]</span></code></pre></div>
+</div>
+<div id="reduceinjectをコードで説明" class="slide section level1">
+<h1>reduce/injectをコードで説明</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>].reduce(<span class="dv">0</span>) { |a, e| a + e }</code></pre></div>
+<p>まず <code>0</code> がブロックの <code>a</code> に<br />
+<code>1</code> が <code>e</code> に渡る</p>
+<p><code>a + e</code> は <code>0 + 1</code> なのでブロックの戻り値は <code>1</code></p>
+<p>それが次の <code>a</code> になる</p>
+</div>
+<div id="reduceinjectをコードで説明-1" class="slide section level1">
+<h1>reduce/injectをコードで説明</h1>
+<p>つまり</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>].reduce(<span class="dv">0</span>) { |a, e| a + e }</code></pre></div>
+<p>が</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">[<span class="dv">2</span>, <span class="dv">3</span>].reduce(<span class="dv">1</span>) { |a, e| a + e }</code></pre></div>
+<p>という状態になる</p>
+</div>
+<div id="reduceinjectをコードで説明-2" class="slide section level1">
+<h1>reduce/injectをコードで説明</h1>
+<p>繰り返すと</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>].reduce(<span class="dv">0</span>) { |a, e| a + e }
+[<span class="dv">2</span>, <span class="dv">3</span>].reduce(<span class="dv">1</span>) { |a, e| a + e }
+[<span class="dv">3</span>].reduce(<span class="dv">3</span>) { |a, e| a + e }</code></pre></div>
+<p>そして最後の <code>a + e</code> が <code>6</code> になりそれが結果になる</p>
+</div>
+<div id="reduceinjectをコードで説明-3" class="slide section level1">
+<h1>reduce/injectをコードで説明</h1>
+<p>一つの式で表現</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">(((<span class="dv">0</span> + <span class="dv">1</span>) + <span class="dv">2</span>) + <span class="dv">3</span>)</code></pre></div>
+<p>これが計算されるわけである</p>
+<p>これは所謂 <code>foldl</code> である</p>
+</div>
+<div id="reduceinjectをコードで説明-4" class="slide section level1">
+<h1>reduce/injectをコードで説明</h1>
+<p>要素が空の時</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">[].reduce(<span class="dv">10</span>) { |a, e| a + e } <span class="co">#=&gt; 10</span></code></pre></div>
+<p>初期値がそのまま返る</p>
+</div>
+<div id="section-4" class="slide section level1">
+<h1></h1>
+<p>前のページで「最後のブロックの戻り値が結果になる」と言ったな</p>
+<p>あれは嘘だ</p>
+</div>
+<div id="reduceinjectをコードで説明-5" class="slide section level1">
+<h1>reduce/injectをコードで説明</h1>
+<p>正しい繰り返しの形</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>].reduce(<span class="dv">0</span>) { |a, e| a + e }
+[<span class="dv">2</span>, <span class="dv">3</span>].reduce(<span class="dv">1</span>) { |a, e| a + e }
+[<span class="dv">3</span>].reduce(<span class="dv">3</span>) { |a, e| a + e }
+[].reduce(<span class="dv">6</span>) { |a, e| a + e } <span class="co">#=&gt; 6</span></code></pre></div>
+</div>
+<div id="reduceinjectをコードで説明-6" class="slide section level1">
+<h1>reduce/injectをコードで説明</h1>
+<p>メソッドに初期値渡さない場合は例外的にリストの第一要素が初期値になる</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>].reduce { |a, e| a + e }
+[<span class="dv">2</span>, <span class="dv">3</span>].reduce(<span class="dv">1</span>) { |a, e| a + e }
+[<span class="dv">3</span>].reduce(<span class="dv">3</span>) { |a, e| a + e }
+[].reduce(<span class="dv">6</span>) { |a, e| a + e } <span class="co">#=&gt; 6</span></code></pre></div>
+</div>
+<div id="gemとbundler" class="slide section level1">
+<h1>gemとBundler</h1>
+<p>Rubyではライブラリがgemという単位で管理されている</p>
+<p>cpanとかpipみたいなものと言えば分かる人は分かる？</p>
+</div>
+<div id="gem-install" class="slide section level1">
+<h1>gem install</h1>
+<p>インストールするコマンドは以下の通り</p>
+<pre class="sh"><code>gem install rubicure</code></pre>
+<p>これでRuby内で</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">require <span class="st">&#39;rubicure&#39;</span></code></pre></div>
+<p>が出来るようになる</p>
+</div>
+<div id="gem-install---no-ri---no-rdoc" class="slide section level1">
+<h1>gem install --no-ri --no-rdoc</h1>
+<p>普通に<code>gem install</code>するとドキュメントの生成が発生する</p>
+<p>大きなライブラリになるとその時間がバカにならない</p>
+<p>以下のオプションでスキップさせられる</p>
+<pre class="sh"><code>gem install rubicure --no-ri --no-rdoc</code></pre>
+<p>ホームディレクトリに<code>.gemrc</code>というファイルを用意して</p>
+<pre><code>install: --no-document
+update: --no-document</code></pre>
+<p>と書いておけばオプション指定が不要になる</p>
+</div>
+<div id="no-riと--no-rdocをデフォルトに" class="slide section level1">
+<h1>--no-riと--no-rdocをデフォルトに</h1>
+<p>ちなみに</p>
+<p>大体皆Webブラウザでドキュメント見るでしょ？これをデフォルトにしようよ</p>
+<p>…とはDHH談</p>
+</div>
+<div id="bundler" class="slide section level1">
+<h1>Bundler</h1>
+<p>大抵は複数のgemを使って何かを開発するのだが毎回<code>gem install ...</code>を<br />
+開発者や運用者全員に漏れ無く伝えるのは実質無理</p>
+<p>gemを管理してくれるgemが存在する</p>
+<p>それがBundler</p>
+<pre class="sh"><code>gem install bundler</code></pre>
+<p>でインストール出来る</p>
+</div>
+<div id="gemfile" class="slide section level1">
+<h1>Gemfile</h1>
+<p>まずGemfileというものを用意する(ファイル名<code>Gemfile</code>)</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">source <span class="st">&#39;https://rubygems.org&#39;</span>
+
+gem <span class="st">&#39;rubicure&#39;</span>, <span class="st">&#39;0.2.6&#39;</span></code></pre></div>
+<p><code>gem 'gemname', 'version'</code>という形式で使うgemを列挙する</p>
+</div>
+<div id="bundleコマンド" class="slide section level1">
+<h1>bundleコマンド</h1>
+<p>Gemfileが用意出来たら</p>
+<pre class="sh"><code>bundle install</code></pre>
+<p>というコマンドを実行する</p>
+</div>
+<div id="gemfile.lock" class="slide section level1">
+<h1>Gemfile.lock</h1>
+<p><code>bundle install</code>実行後にGemfile.lockというファイルが出来る</p>
+<p>これが保持されている限り皆<code>bundle install</code>をすれば同じgemを指定したバージョンで使える</p>
+</div>
+<div id="gemfileのバージョン指定" class="slide section level1">
+<h1>Gemfileのバージョン指定</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">gem <span class="st">&#39;libname&#39;</span>, <span class="st">&#39;1.0.0&#39;</span>    <span class="co"># 固定</span>
+
+gem <span class="st">&#39;libname&#39;</span>, <span class="st">&#39;&gt;= 1.0.0&#39;</span> <span class="co"># 1.0.0以上</span>
+                          <span class="co"># OK: 1.0.1, 1.1.0, 2.0.0</span>
+                          <span class="co"># NO: 0.9.9</span>
+
+gem <span class="st">&#39;libname&#39;</span>, <span class="st">&#39;~&gt; 1.0.2&#39;</span> <span class="co"># 1.0.2以上の1.0.xを許可</span>
+                          <span class="co"># OK: 1.0.2, 1.0.9, 1.0.99</span>
+                          <span class="co"># NO: 1.0.0, 1.0.1, 1.1.0, 2.0.0</span>
+
+gem <span class="st">&#39;libname&#39;</span>, <span class="st">&#39;~&gt; 1.3&#39;</span>   <span class="co"># 1.3以上の1.x.yを許可</span>
+                          <span class="co"># OK: 1.3.0, 1.3.1, 1.4.0, 1.9.1</span>
+                          <span class="co"># NO: 1.2.99, 2.0.0</span></code></pre></div>
+</div>
+<div id="gemを皆が投稿する場所-rubygems.org" class="slide section level1">
+<h1>gemを皆が投稿する場所 rubygems.org</h1>
+<p><a href="https://rubygems.org/">RubyGems.org | your community gem host</a></p>
+<p>gemの大体はソースコードがGitHub上に公開されている</p>
+<p>例</p>
+<ul class="incremental">
+<li><a href="https://github.com/rails/rails">rails/rails</a></li>
+<li><a href="https://github.com/sue445/rubicure">sue445/rubicure</a></li>
+<li><a href="https://github.com/igrep/crispy">igrep/crispy</a></li>
+<li><a href="https://github.com/kaosf/apns-s3">kaosf/apns-s3</a></li>
+</ul>
+</div>
+<div id="試しにrailsをインストール" class="slide section level1">
+<h1>試しにRailsをインストール</h1>
+<pre class="sh"><code>gem install --no-ri --no-rdoc rails -v 4.2.3</code></pre>
+<p>※ちょっと時間掛かると思うので残り時間余裕あったらやって下さい</p>
+</div>
+<div id="キーワード付き引数" class="slide section level1">
+<h1>キーワード付き引数</h1>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span class="kw">def</span> f(<span class="st">x: </span><span class="dv">nil</span>, <span class="st">y: </span><span class="dv">nil</span>, <span class="st">z: </span><span class="dv">3</span>)
+  p x + y + z
+<span class="kw">end</span>
+
+f <span class="st">x: </span><span class="dv">10</span>, <span class="st">y: </span><span class="dv">100</span> <span class="co">#=&gt; 113</span>
+f <span class="st">y: </span><span class="dv">100</span>, <span class="st">x: </span><span class="dv">10</span> <span class="co">#=&gt; 113</span>
+f <span class="st">z: </span><span class="dv">1000</span>, <span class="st">y: </span><span class="dv">100</span>, <span class="st">x: </span><span class="dv">10</span> <span class="co">#=&gt; 1110</span></code></pre></div>
+<p>「引数の順番」というあの煩わしさを引数名を明示して解消</p>
+<p>引数名を明示することにより呼び出し側も意図を明確に出来る</p>
+<p>Ruby 2.0.0から使える</p>
+</div>
+<div id="itselfメソッド" class="slide section level1">
+<h1>itselfメソッド</h1>
+<p>自分自身を返すメソッド</p>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">p <span class="dv">1</span>.itself <span class="co">#=&gt; 1</span>
+p <span class="st">&quot;a&quot;</span>.itself <span class="co">#=&gt; &quot;a&quot;</span>
+p <span class="dv">nil</span>.itself <span class="co">#=&gt; nil</span>
+
+p [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>].map { |e| e.itself } <span class="co">#=&gt; [1, 2, 3]</span></code></pre></div>
+<p>数学の言葉で言うと「恒等写像」「恒等関数」</p>
+<p>Ruby 2.2.0から使える</p>
+</div>
+<div id="section-5" class="slide section level1">
+<h1></h1>
+<p>おわり</p>
+</div>
+</body>
+</html>
+<!-- Pandoc version:
+pandoc 1.15.0.6
+Compiled with texmath 0.8.2, highlighting-kate 0.6.
+Syntax highlighting is supported for the following languages:
+    abc, actionscript, ada, agda, apache, asn1, asp, awk, bash, bibtex, boo, c,
+    changelog, clojure, cmake, coffee, coldfusion, commonlisp, cpp, cs, css,
+    curry, d, diff, djangotemplate, dockerfile, dot, doxygen, doxygenlua, dtd,
+    eiffel, email, erlang, fasm, fortran, fsharp, gcc, glsl, gnuassembler, go,
+    haskell, haxe, html, idris, ini, isocpp, java, javadoc, javascript, json,
+    jsp, julia, kotlin, latex, lex, lilypond, literatecurry, literatehaskell,
+    lua, m4, makefile, mandoc, markdown, mathematica, matlab, maxima, mediawiki,
+    metafont, mips, modelines, modula2, modula3, monobasic, nasm, noweb,
+    objectivec, objectivecpp, ocaml, octave, opencl, pascal, perl, php, pike,
+    postscript, prolog, pure, python, r, relaxng, relaxngcompact, rest, rhtml,
+    roff, ruby, rust, scala, scheme, sci, sed, sgml, sql, sqlmysql,
+    sqlpostgresql, tcl, tcsh, texinfo, verilog, vhdl, xml, xorg, xslt, xul,
+    yacc, yaml, zsh
+Default user data directory: <DELETED>
+Copyright (C) 2006-2015 John MacFarlane
+Web:  http://pandoc.org
+This is free software; see the source for copying conditions.
+There is no warranty, not even for merchantability or fitness
+for a particular purpose.
+-->
