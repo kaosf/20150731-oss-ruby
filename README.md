@@ -6,7 +6,7 @@
 
 このスライドは公開されています
 
-このスライドのリポジトリは[https://github.com/xxx/20150718-oss-ruby-slide](https://github.com/xxx/20150718-oss-ruby-slide)にあります
+このスライドのリポジトリは[https://github.com/kaosf/20150731-oss-ruby](https://github.com/kaosf/20150731-oss-ruby)にあります
 
 間違いなどを見つけた場合は
 
